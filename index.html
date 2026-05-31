@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人品牌资产盘点 - 增强版</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-50 font-sans">
+    <nav class="bg-rose-700 text-white p-4 shadow-lg">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <h1 class="text-xl font-bold"><i class="fa fa-diamond mr-2"></i>个人品牌资产盘点</h1>
+            <div class="space-x-4 text-sm">
+                <button onclick="showTab('input')" class="tab-btn px-3 py-1 rounded bg-rose-500">资产录入</button>
+                <button onclick="showTab('analysis')" class="tab-btn px-3 py-1 rounded hover:bg-rose-500">分析报告</button>
+                <button onclick="showTab('trend')" class="tab-btn px-3 py-1 rounded hover:bg-rose-500">趋势对比</button>
+                <button onclick="showTab('monetize')" class="tab-btn px-3 py-1 rounded hover:bg-rose-500">变现路径</button>
+            </div>
+        </div>
+    </nav>
+    <div class="max-w-4xl mx-auto p-4">
+        <div id="tab-input" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="font-bold mb-4"><i class="fa fa-users mr-2 text-rose-600"></i>受众资产</h3>
+                    <div class="space-y-3">
+                        <div><label class="block text-sm text-gray-600 mb-1">公众号粉丝</label><input type="number" id="fans_gzh" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">抖音/视频号粉丝</label><input type="number" id="fans_douyin" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">小红书粉丝</label><input type="number" id="fans_xhs" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">B站粉丝</label><input type="number" id="fans_bilibili" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">知乎粉丝</label><input type="number" id="fans_zhihu" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">私域用户(微信/社群)</label><input type="number" id="fans_private" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="font-bold mb-4"><i class="fa fa-file-text mr-2 text-rose-600"></i>内容资产</h3>
+                    <div class="space-y-3">
+                        <div><label class="block text-sm text-gray-600 mb-1">原创文章数</label><input type="number" id="content_article" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">视频作品数</label><input type="number" id="content_video" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">电子书/课程数</label><input type="number" id="content_course" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">爆款作品数(10w+)</label><input type="number" id="content_viral" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">月度产出内容数</label><input type="number" id="content_monthly" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">粉丝月增长率(%)</label><input type="number" id="fans_growth_rate" class="w-full border rounded p-2" placeholder="0" oninput="save()" step="0.1"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="font-bold mb-4"><i class="fa fa-star mr-2 text-rose-600"></i>技能资产</h3>
+                    <div class="space-y-3">
+                        <div><label class="block text-sm text-gray-600 mb-1">核心技能 (1-10分)</label><input type="range" id="skill_core" min="1" max="10" value="5" class="w-full" oninput="document.getElementById('skill_core_val').textContent=this.value;save()"><div class="text-right text-sm text-gray-500"><span id="skill_core_val">5</span>分</div></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">细分领域专业度 (1-10分)</label><input type="range" id="skill_niche" min="1" max="10" value="5" class="w-full" oninput="document.getElementById('skill_niche_val').textContent=this.value;save()"><div class="text-right text-sm text-gray-500"><span id="skill_niche_val">5</span>分</div></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">内容创作能力 (1-10分)</label><input type="range" id="skill_content" min="1" max="10" value="5" class="w-full" oninput="document.getElementById('skill_content_val').textContent=this.value;save()"><div class="text-right text-sm text-gray-500"><span id="skill_content_val">5</span>分</div></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">商业变现能力 (1-10分)</label><input type="range" id="skill_monetize" min="1" max="10" value="5" class="w-full" oninput="document.getElementById('skill_monetize_val').textContent=this.value;save()"><div class="text-right text-sm text-gray-500"><span id="skill_monetize_val">5</span>分</div></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6">
+                    <h3 class="font-bold mb-4"><i class="fa fa-link mr-2 text-rose-600"></i>人脉资产</h3>
+                    <div class="space-y-3">
+                        <div><label class="block text-sm text-gray-600 mb-1">行业大佬联系人</label><input type="number" id="network_leader" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">同行朋友</label><input type="number" id="network_peer" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">潜在客户/合作方</label><input type="number" id="network_client" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">社群影响力 (1-10分)</label><input type="range" id="network_influence" min="1" max="10" value="5" class="w-full" oninput="document.getElementById('network_influence_val').textContent=this.value;save()"><div class="text-right text-sm text-gray-500"><span id="network_influence_val">5</span>分</div></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow p-6 md:col-span-2">
+                    <h3 class="font-bold mb-4"><i class="fa fa-money mr-2 text-rose-600"></i>变现资产</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div><label class="block text-sm text-gray-600 mb-1">月均收入 (¥)</label><input type="number" id="income_monthly" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">付费用户数</label><input type="number" id="income_users" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">产品/服务数量</label><input type="number" id="income_products" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                        <div><label class="block text-sm text-gray-600 mb-1">客单价 (¥)</label><input type="number" id="income_aov" class="w-full border rounded p-2" placeholder="0" oninput="save()"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-4 mt-6">
+                <button onclick="saveSnapshot(); showTab('analysis')" class="bg-rose-600 text-white px-8 py-3 rounded-lg hover:bg-rose-700"><i class="fa fa-calculator mr-2"></i>生成分析报告</button>
+                <button onclick="saveSnapshot(); showTab('trend')" class="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700"><i class="fa fa-line-chart mr-2"></i>保存并查看趋势</button>
+            </div>
+        </div>
+
+        <div id="tab-analysis" class="tab-content hidden">
+            <div class="bg-gradient-to-br from-rose-50 to-indigo-50 rounded-xl shadow p-6 mb-6 border border-rose-100">
+                <h2 class="font-bold text-lg mb-4"><i class="fa fa-dashboard mr-2 text-rose-600"></i>品牌健康仪表盘</h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="text-center"><div class="text-gray-500 text-sm mb-1">总资产评分</div><div id="dashTotalScore" class="text-4xl font-bold text-rose-600">0</div><div id="dashScoreLabel" class="text-xs text-gray-400">暂无数据</div></div>
+                    <div class="text-center"><svg id="ringFans" width="100" height="100" viewBox="0 0 120 120" class="mx-auto"><circle cx="60" cy="60" r="50" fill="none" stroke="#e5e7eb" stroke-width="10"/><circle id="ringFansArc" cx="60" cy="60" r="50" fill="none" stroke="#f43f5e" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/><text x="60" y="55" text-anchor="middle" class="text-sm font-bold" fill="#f43f5e" id="ringFansPct">0%</text><text x="60" y="75" text-anchor="middle" class="text-xs" fill="#9ca3af">粉丝健康</text></svg></div>
+                    <div class="text-center"><svg id="ringContent" width="100" height="100" viewBox="0 0 120 120" class="mx-auto"><circle cx="60" cy="60" r="50" fill="none" stroke="#e5e7eb" stroke-width="10"/><circle id="ringContentArc" cx="60" cy="60" r="50" fill="none" stroke="#3b82f6" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/><text x="60" y="55" text-anchor="middle" class="text-sm font-bold" fill="#3b82f6" id="ringContentPct">0%</text><text x="60" y="75" text-anchor="middle" class="text-xs" fill="#9ca3af">内容健康</text></svg></div>
+                    <div class="text-center"><svg id="ringIncome" width="100" height="100" viewBox="0 0 120 120" class="mx-auto"><circle cx="60" cy="60" r="50" fill="none" stroke="#e5e7eb" stroke-width="10"/><circle id="ringIncomeArc" cx="60" cy="60" r="50" fill="none" stroke="#10b981" stroke-width="10" stroke-linecap="round" stroke-dasharray="314" stroke-dashoffset="314" transform="rotate(-90 60 60)"/><text x="60" y="55" text-anchor="middle" class="text-sm font-bold" fill="#10b981" id="ringIncomePct">0%</text><text x="60" y="75" text-anchor="middle" class="text-xs" fill="#9ca3af">变现健康</text></svg></div>
+                </div>
+                <div id="aiDiagnosis" class="mt-4 p-3 bg-white bg-opacity-70 rounded-lg text-sm text-gray-700 border border-rose-200"><i class="fa fa-robot text-rose-500 mr-2"></i><span id="diagnosisText">请先填写资产数据，然后点击「生成分析报告」查看诊断。</span></div>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-xl shadow p-5 text-center"><div class="text-gray-500 text-sm">总粉丝数</div><div id="totalFans" class="text-2xl font-bold text-rose-600">0</div></div>
+                <div class="bg-white rounded-xl shadow p-5 text-center"><div class="text-gray-500 text-sm">内容资产</div><div id="totalContent" class="text-2xl font-bold text-indigo-600">0</div></div>
+                <div class="bg-white rounded-xl shadow p-5 text-center"><div class="text-gray-500 text-sm">综合评分</div><div id="totalScore" class="text-2xl font-bold text-emerald-600">0</div></div>
+                <div class="bg-white rounded-xl shadow p-5 text-center"><div class="text-gray-500 text-sm">估值等级</div><div id="scoreLevel" class="text-2xl font-bold text-amber-600">-</div></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white rounded-xl shadow p-5"><h3 class="font-bold mb-3"><i class="fa fa-bullseye mr-2 text-rose-600"></i>能力雷达图</h3><canvas id="radarChart" height="220"></canvas></div>
+                <div class="bg-white rounded-xl shadow p-5"><h3 class="font-bold mb-3"><i class="fa fa-pie-chart mr-2 text-rose-600"></i>粉丝分布</h3><canvas id="pieChart" height="220"></canvas></div>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 mb-6">
+                <h3 class="font-bold mb-4"><i class="fa fa-bar-chart mr-2 text-rose-600"></i>行业对标参考</h3>
+                <div class="overflow-x-auto text-sm"><table class="w-full border-collapse"><thead><tr class="bg-gray-100"><th class="p-2 text-left">平台</th><th class="p-2 text-right">入门</th><th class="p-2 text-right">成长</th><th class="p-2 text-right">成熟</th><th class="p-2 text-right">头部</th><th class="p-2 text-right">你的位置</th></tr></thead><tbody id="benchmarkBody"></tbody></table></div>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6 mb-6"><h3 class="font-bold mb-4"><i class="fa fa-exclamation-triangle mr-2 text-rose-600"></i>短板分析</h3><div id="weakness" class="space-y-3"></div></div>
+            <div class="bg-white rounded-xl shadow p-6 mb-6"><h3 class="font-bold mb-4"><i class="fa fa-rocket mr-2 text-rose-600"></i>增长策略推荐</h3><div id="growthStrategies" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div></div>
+            <div class="bg-white rounded-xl shadow p-6"><h3 class="font-bold mb-4"><i class="fa fa-star mr-2 text-rose-600"></i>增值建议</h3><div id="suggestions" class="space-y-3"></div></div>
+        </div>
+
+        <!-- 趋势对比 Tab -->
+        <div id="tab-trend" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold"><i class="fa fa-line-chart mr-2 text-indigo-600"></i>历史趋势分析</h3>
+                    <button onclick="clearSnapshots()" class="text-sm px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200"><i class="fa fa-trash"></i> 清空历史</button>
+                </div>
+                <p class="text-sm text-gray-500 mb-4">每次点击「保存并查看趋势」都会记录当前资产快照。通过趋势图观察品牌资产的成长变化。</p>
+                <div class="mb-4"><canvas id="trendChart" height="250"></canvas></div>
+                <div id="trendStats" class="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm"></div>
+            </div>
+            <div class="bg-white rounded-xl shadow p-6">
+                <h3 class="font-bold mb-4"><i class="fa fa-list mr-2 text-indigo-600"></i>历史快照列表</h3>
+                <div id="snapshotList" class="space-y-2 max-h-60 overflow-y-auto"></div>
+            </div>
+        </div>
+
+        <!-- 变现路径 Tab -->
+        <div id="tab-monetize" class="tab-content hidden">
+            <div class="bg-white rounded-xl shadow p-6 mb-6">
+                <h3 class="font-bold mb-4"><i class="fa fa-money mr-2 text-green-600"></i>变现路径规划推荐</h3>
+                <p class="text-sm text-gray-500 mb-4">基于当前品牌资产盘点结果，系统智能推荐最适合你的变现路径。</p>
+                <div id="monetizePathways" class="space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let data = {};
+        let radarChartInstance, pieChartInstance, trendChartInstance;
+
+        // 行业对标数据
+        const BENCHMARKS = {
+            '公众号': { thresholds: ['<1000', '1k-1w', '1w-10w', '>10w'], levels: ['入门', '成长', '成熟', '头部'] },
+            '抖音': { thresholds: ['<1w', '1w-10w', '10w-50w', '>50w'], levels: ['入门', '成长', '成熟', '头部'] },
+            '小红书': { thresholds: ['<5000', '5k-5w', '5w-30w', '>30w'], levels: ['入门', '成长', '成熟', '头部'] },
+            'B站': { thresholds: ['<5000', '5k-5w', '5w-30w', '>30w'], levels: ['入门', '成长', '成熟', '头部'] },
+            '知乎': { thresholds: ['<3000', '3k-3w', '3w-20w', '>20w'], levels: ['入门', '成长', '成熟', '头部'] },
+            '私域': { thresholds: ['<500', '500-3000', '3k-2w', '>2w'], levels: ['入门', '成长', '成熟', '头部'] }
+        };
+
+        const VALUE_BENCHMARKS = [
+            { label: '兴趣阶段', range: '¥0-3000', min: 0, max: 3000 },
+            { label: '兼职阶段', range: '¥3k-2w', min: 3000, max: 20000 },
+            { label: '全职阶段', range: '¥2w-10w', min: 20000, max: 100000 },
+            { label: '工作室阶段', range: '¥10w-50w', min: 100000, max: 500000 },
+            { label: '公司化阶段', range: '¥50w+', min: 500000, max: Infinity }
+        ];
+
+        // ====== 变现路径规划数据 ======
+        const MONETIZE_PATHS = [
+            { id: 'consult', name: '付费咨询', icon: 'fa-comments', minScore: 30, req: '需要一定的专业认可度和行业经验', income: '¥100-1000/次', desc: '基于你的专业领域提供一对一咨询。适合专业技能突出、有实战经验的个人品牌。', steps: ['明确咨询方向和目标客户', '制定服务菜单和定价体系', '建立预约流程和交付标准', '通过内容引流+口碑传播获客'] },
+            { id: 'course', name: '知识付费/课程', icon: 'fa-graduation-cap', minScore: 40, req: '需要有系统化的知识体系和内容创作能力', income: '¥99-999/份', desc: '将自己的专业知识和经验打包为在线课程。适合内容沉淀充分、粉丝基础良好的品牌。', steps: ['梳理知识体系和课程大纲', '制作课程内容（视频/图文）', '选择知识付费平台', '制定推广和销售策略'] },
+            { id: 'community', name: '付费社群', icon: 'fa-users', minScore: 35, req: '需要有一定的粉丝基础和社群运营能力', income: '¥99-999/年', desc: '建立付费社群，提供持续的价值输出和交流平台。适合私域流量和粉丝粘性高的品牌。', steps: ['明确社群定位和价值主张', '设计社群权益和运营机制', '建立入群筛选和收费体系', '持续输出价值+定期活动'] },
+            { id: 'ads', name: '广告/品牌合作', icon: 'fa-bullhorn', minScore: 50, req: '需要粉丝量达到一定规模（建议1万+）', income: '¥1000-50000/条', desc: '通过内容影响力吸引品牌合作和广告投放。适合粉丝量大、内容调性鲜明的品牌。', steps: ['整理媒体资源和数据', '制作合作案例和报价单', '主动联系品牌或接入广告平台', '建立长期合作关系'] },
+            { id: 'product', name: '自有产品', icon: 'fa-cube', minScore: 45, req: '需要一定的产品开发能力和供应链资源', income: '¥100-1000/件', desc: '开发自有品牌产品（实体/数字），建立产品矩阵。适合品牌影响力较强、有产品化能力的品牌。', steps: ['市场调研和产品定义', '开发/生产最小可行产品', '通过私域测试和迭代', '规模化生产和多渠道销售'] },
+            { id: 'subscription', name: '订阅制/会员', icon: 'fa-refresh', minScore: 50, req: '需要持续产出高质量内容和稳定的更新节奏', income: '¥10-99/月', desc: '建立月度/年度订阅体系，提供持续的内容服务。适合内容产出稳定、粉丝忠诚度高的品牌。', steps: ['设计订阅内容和权益体系', '确定定价和订阅周期', '搭建订阅管理工具', '持续优化内容和服务'] },
+            { id: 'service', name: '定制服务', icon: 'fa-wrench', minScore: 35, req: '需要有可交付的定制化服务能力', income: '¥1000-50000/单', desc: '基于你的专业能力提供定制化服务（设计/开发/营销等）。适合技能实用、交付能力强的品牌。', steps: ['梳理可提供的服务清单', '制定服务流程和交付物标准', '建立客户案例库', '通过口碑和推荐获客'] },
+            { id: 'affiliate', name: '联盟/分销', icon: 'fa-share-alt', minScore: 30, req: '需要有一定的流量渠道和内容场景', income: '佣金制', desc: '通过推荐第三方产品或服务获取佣金。适合流量型品牌，变现门槛较低。', steps: ['选择适合的合作产品和平台', '制作自然种草内容', '嵌入推广链接和优惠', '跟踪转化并优化策略'] }
+        ];
+
+        function loadData() {
+            data = JSON.parse(localStorage.getItem('brandAssets') || '{}');
+            Object.keys(data).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) { if (el.type === 'range') { el.value = data[key]; const valEl = document.getElementById(key + '_val'); if (valEl) valEl.textContent = data[key]; } else el.value = data[key]; }
+            });
+        }
+
+        function save() {
+            ['fans_gzh','fans_douyin','fans_xhs','fans_bilibili','fans_zhihu','fans_private','content_article','content_video','content_course','content_viral','content_monthly','fans_growth_rate','skill_core','skill_niche','skill_content','skill_monetize','network_leader','network_peer','network_client','network_influence','income_monthly','income_users','income_products','income_aov'].forEach(key => {
+                const el = document.getElementById(key);
+                if (el) data[key] = el.type === 'range' ? parseInt(el.value) : (parseFloat(el.value) || 0);
+            });
+            localStorage.setItem('brandAssets', JSON.stringify(data));
+        }
+
+        // ====== 保存快照 ======
+        function saveSnapshot() {
+            save();
+            const snapshots = JSON.parse(localStorage.getItem('brandSnapshots') || '[]');
+            const now = new Date();
+            const dateStr = now.toISOString().slice(0, 10) + ' ' + now.toTimeString().slice(0, 5);
+            const fans = ['fans_gzh', 'fans_douyin', 'fans_xhs', 'fans_bilibili', 'fans_zhihu', 'fans_private'].reduce((s, k) => s + (data[k] || 0), 0);
+            const content = ['content_article', 'content_video', 'content_course', 'content_viral'].reduce((s, k) => s + (data[k] || 0), 0);
+            const monthlyIncome = data.income_monthly || 0;
+            const audienceScore = Math.min(100, Math.log10(fans + 1) * 25);
+            const contentScore = Math.min(100, Math.log10(content + 1) * 33);
+            const skillScore = ((data.skill_core || 5) + (data.skill_niche || 5) + (data.skill_content || 5) + (data.skill_monetize || 5)) / 4 * 10;
+            const networkScore = Math.min(100, Math.log10((data.network_leader || 0) * 10 + (data.network_peer || 0) + (data.network_client || 0) + 1) * 20 + (data.network_influence || 5) * 5);
+            const monetizeScore = Math.min(100, Math.log10((data.income_monthly || 0) + 1) * 15 + Math.min(50, (data.income_users || 0) / 10));
+            const totalScore = Math.round((audienceScore + contentScore + skillScore + networkScore + monetizeScore) / 5);
+
+            snapshots.push({
+                date: dateStr,
+                totalScore: totalScore,
+                fans: fans,
+                content: content,
+                monthlyIncome: monthlyIncome,
+                audienceScore: Math.round(audienceScore),
+                contentScore: Math.round(contentScore),
+                skillScore: Math.round(skillScore),
+                networkScore: Math.round(networkScore),
+                monetizeScore: Math.round(monetizeScore)
+            });
+            localStorage.setItem('brandSnapshots', JSON.stringify(snapshots));
+            showToast('资产快照已保存');
+        }
+
+        function getSnapshots() {
+            return JSON.parse(localStorage.getItem('brandSnapshots') || '[]');
+        }
+
+        function clearSnapshots() {
+            if (confirm('确定清空所有历史快照？')) {
+                localStorage.removeItem('brandSnapshots');
+                renderTrendChart();
+                renderSnapshots();
+                showToast('历史快照已清空');
+            }
+        }
+
+        // ====== 趋势图表 ======
+        function renderTrendChart() {
+            const snapshots = getSnapshots();
+            if (trendChartInstance) trendChartInstance.destroy();
+            const canvas = document.getElementById('trendChart');
+            if (snapshots.length === 0) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                document.getElementById('trendStats').innerHTML = '<div class="text-center text-gray-400 py-4 col-span-4"><i class="fa fa-inbox text-2xl block mb-1"></i>暂无历史数据，先保存资产快照吧</div>';
+                return;
+            }
+            const labels = snapshots.map(s => s.date);
+            const scores = snapshots.map(s => s.totalScore);
+            const audiences = snapshots.map(s => s.audienceScore || 0);
+            const contents = snapshots.map(s => s.contentScore || 0);
+            const skills = snapshots.map(s => s.skillScore || 0);
+            const networks = snapshots.map(s => s.networkScore || 0);
+            const monetizes = snapshots.map(s => s.monetizeScore || 0);
+
+            trendChartInstance = new Chart(canvas, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: '综合评分', data: scores, borderColor: '#f43f5e', backgroundColor: 'rgba(244,63,94,0.1)', fill: true, tension: 0.3 },
+                        { label: '受众', data: audiences, borderColor: '#3b82f6', backgroundColor: 'transparent', borderDash: [5,5], tension: 0.3 },
+                        { label: '内容', data: contents, borderColor: '#10b981', backgroundColor: 'transparent', borderDash: [5,5], tension: 0.3 },
+                        { label: '技能', data: skills, borderColor: '#8b5cf6', backgroundColor: 'transparent', borderDash: [5,5], tension: 0.3 },
+                        { label: '变现', data: monetizes, borderColor: '#f59e0b', backgroundColor: 'transparent', borderDash: [5,5], tension: 0.3 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { title: { display: true, text: '品牌资产评分趋势', font: { size: 14 } } },
+                    scales: { y: { beginAtZero: true, max: 100, title: { display: true, text: '评分' } } }
+                }
+            });
+
+            // 趋势统计
+            const first = snapshots[0];
+            const last = snapshots[snapshots.length - 1];
+            const diff = last.totalScore - first.totalScore;
+            const diffHTML = diff > 0 ? '<span class="text-green-600"><i class="fa fa-arrow-up"></i> +' + diff + '</span>' : diff < 0 ? '<span class="text-red-600"><i class="fa fa-arrow-down"></i> ' + diff + '</span>' : '<span class="text-gray-600">持平</span>';
+            const growth = first.totalScore > 0 ? Math.round((diff / first.totalScore) * 100) : 0;
+            const growthHTML = growth > 0 ? '<span class="text-green-600">+' + growth + '%</span>' : growth < 0 ? '<span class="text-red-600">' + growth + '%</span>' : '<span class="text-gray-600">-</span>';
+
+            document.getElementById('trendStats').innerHTML =
+                '<div class="bg-indigo-50 rounded p-3 text-center"><div class="text-xs text-gray-500">记录次数</div><div class="text-lg font-bold text-indigo-600">' + snapshots.length + '</div></div>' +
+                '<div class="bg-emerald-50 rounded p-3 text-center"><div class="text-xs text-gray-500">最新评分</div><div class="text-lg font-bold text-emerald-600">' + last.totalScore + '</div></div>' +
+                '<div class="bg-amber-50 rounded p-3 text-center"><div class="text-xs text-gray-500">较首次变化</div><div class="text-lg font-bold text-amber-600">' + diffHTML + '</div></div>' +
+                '<div class="bg-rose-50 rounded p-3 text-center"><div class="text-xs text-gray-500">增长率</div><div class="text-lg font-bold text-rose-600">' + growthHTML + '</div></div>';
+        }
+
+        function renderSnapshots() {
+            const snapshots = getSnapshots();
+            const container = document.getElementById('snapshotList');
+            if (snapshots.length === 0) {
+                container.innerHTML = '<div class="text-center text-gray-400 py-4"><i class="fa fa-inbox text-2xl block mb-1"></i>暂无快照记录</div>';
+                return;
+            }
+            container.innerHTML = snapshots.map((s, i) =>
+                '<div class="flex items-center justify-between p-2 bg-gray-50 rounded">' +
+                '<div class="flex items-center gap-2"><span class="text-xs text-gray-400">#' + (i + 1) + '</span><span class="text-xs text-gray-500">' + s.date + '</span></div>' +
+                '<div class="flex items-center gap-3 text-xs"><span>粉丝 ' + (s.fans || 0).toLocaleString() + '</span><span>收入 ¥' + (s.monthlyIncome || 0).toLocaleString() + '</span><span class="font-bold text-rose-600">评分 ' + s.totalScore + '</span></div></div>'
+            ).join('');
+        }
+
+        function showTab(name) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.className = 'tab-btn px-3 py-1 rounded hover:bg-rose-500');
+            const tabEl = document.getElementById('tab-' + name);
+            if (tabEl) tabEl.classList.remove('hidden');
+            if (name === 'analysis') analyze();
+            if (name === 'trend') { renderTrendChart(); renderSnapshots(); }
+            if (name === 'monetize') renderMonetizePaths();
+        }
+
+        // ====== 分析报告 ======
+        function analyze() {
+            const fans = ['fans_gzh', 'fans_douyin', 'fans_xhs', 'fans_bilibili', 'fans_zhihu', 'fans_private'].reduce((s, k) => s + (data[k] || 0), 0);
+            const content = ['content_article', 'content_video', 'content_course', 'content_viral'].reduce((s, k) => s + (data[k] || 0), 0);
+            const audienceScore = Math.min(100, Math.log10(fans + 1) * 25);
+            const contentScore = Math.min(100, Math.log10(content + 1) * 33);
+            const skillScore = ((data.skill_core || 5) + (data.skill_niche || 5) + (data.skill_content || 5) + (data.skill_monetize || 5)) / 4 * 10;
+            const networkScore = Math.min(100, Math.log10((data.network_leader || 0) * 10 + (data.network_peer || 0) + (data.network_client || 0) + 1) * 20 + (data.network_influence || 5) * 5);
+            const monetizeScore = Math.min(100, Math.log10((data.income_monthly || 0) + 1) * 15 + Math.min(50, (data.income_users || 0) / 10));
+            const totalScore = Math.round((audienceScore + contentScore + skillScore + networkScore + monetizeScore) / 5);
+
+            document.getElementById('dashTotalScore').textContent = totalScore;
+            let dashLabel = '';
+            if (totalScore >= 80) dashLabel = '优秀品牌，已建立较强影响力';
+            else if (totalScore >= 60) dashLabel = '成长型品牌，有良好基础';
+            else if (totalScore >= 40) dashLabel = '起步阶段，关键成长期';
+            else if (totalScore >= 20) dashLabel = '早期积累期，需持续推进';
+            else dashLabel = '刚刚起步，从小处着手';
+            document.getElementById('dashScoreLabel').textContent = dashLabel;
+
+            const circumference = 314;
+            const fansHealth = Math.min(100, Math.round(audienceScore));
+            const contentHealth = Math.min(100, Math.round(contentScore));
+            const incomeHealth = Math.min(100, Math.round(monetizeScore));
+            document.getElementById('ringFansArc').setAttribute('stroke-dashoffset', circumference - (fansHealth / 100) * circumference);
+            document.getElementById('ringFansPct').textContent = fansHealth + '%';
+            document.getElementById('ringContentArc').setAttribute('stroke-dashoffset', circumference - (contentHealth / 100) * circumference);
+            document.getElementById('ringContentPct').textContent = contentHealth + '%';
+            document.getElementById('ringIncomeArc').setAttribute('stroke-dashoffset', circumference - (incomeHealth / 100) * circumference);
+            document.getElementById('ringIncomePct').textContent = incomeHealth + '%';
+
+            const dims = [
+                { name: '受众规模', score: audienceScore },
+                { name: '内容资产', score: contentScore },
+                { name: '专业技能', score: skillScore },
+                { name: '人脉资源', score: networkScore },
+                { name: '变现能力', score: monetizeScore },
+            ];
+            dims.sort((a, b) => b.score - a.score);
+            const best = dims[0];
+            const worst = dims[dims.length - 1];
+            const diagText = '你的品牌在「' + best.name + '」方面表现突出（' + best.score.toFixed(0) + '分），但「' + worst.name + '」需要加强（' + worst.score.toFixed(0) + '分）。' + (worst.score < 30 ? '建议优先从这一维度入手突破，避免短板拉低整体品牌价值。' : '保持均衡发展，进一步提升品牌综合实力。');
+            document.getElementById('diagnosisText').textContent = diagText;
+            const levels = ['初学者', '入门者', '成长期', '成熟期', '资深者', '专家级', '领军者'];
+            const level = levels[Math.min(6, Math.floor(totalScore / 15))];
+            document.getElementById('totalFans').textContent = fans.toLocaleString();
+            document.getElementById('totalContent').textContent = content;
+            document.getElementById('totalScore').textContent = totalScore;
+            document.getElementById('scoreLevel').textContent = level;
+
+            if (radarChartInstance) radarChartInstance.destroy();
+            radarChartInstance = new Chart(document.getElementById('radarChart'), {
+                type: 'radar', data: { labels: ['受众', '内容', '技能', '人脉', '变现'], datasets: [{ label: '能力值', data: [audienceScore, contentScore, skillScore, networkScore, monetizeScore], backgroundColor: 'rgba(244, 63, 94, 0.2)', borderColor: '#f43f5e', pointBackgroundColor: '#f43f5e' }] },
+                options: { responsive: true, scales: { r: { beginAtZero: true, max: 100 } } }
+            });
+
+            const fanData = { '公众号': data.fans_gzh || 0, '抖音/视频号': data.fans_douyin || 0, '小红书': data.fans_xhs || 0, 'B站': data.fans_bilibili || 0, '知乎': data.fans_zhihu || 0, '私域': data.fans_private || 0 };
+            if (pieChartInstance) pieChartInstance.destroy();
+            pieChartInstance = new Chart(document.getElementById('pieChart'), { type: 'pie', data: { labels: Object.keys(fanData), datasets: [{ data: Object.values(fanData), backgroundColor: ['#f43f5e', '#ec4899', '#a855f7', '#3b82f6', '#10b981', '#f59e0b'] }] } });
+
+            // 行业对标
+            const benchBody = document.getElementById('benchmarkBody');
+            const fanKeys = ['公众号', '抖音', '小红书', 'B站', '知乎', '私域'];
+            const dataKeys = ['fans_gzh', 'fans_douyin', 'fans_xhs', 'fans_bilibili', 'fans_zhihu', 'fans_private'];
+            benchBody.innerHTML = fanKeys.map((name, i) => {
+                const val = data[dataKeys[i]] || 0;
+                const bm = BENCHMARKS[name];
+                const levelIdx = val === 0 ? -1 : val < parseFloat(bm.thresholds[0].match(/(\d+)/)[1]) ? 0 : val < parseFloat(bm.thresholds[1].match(/(\d+)/)[1]) ? 1 : val < parseFloat(bm.thresholds[2].match(/(\d+)/)[1]) ? 2 : 3;
+                return '<tr class="border-b"><td class="p-2 font-medium">' + name + '</td><td class="p-2 text-right text-gray-500">' + bm.thresholds[0] + '</td><td class="p-2 text-right text-gray-500">' + bm.thresholds[1] + '</td><td class="p-2 text-right text-gray-500">' + bm.thresholds[2] + '</td><td class="p-2 text-right text-gray-500">' + bm.thresholds[3] + '</td><td class="p-2 text-right font-medium ' + (levelIdx >= 3 ? 'text-green-600' : levelIdx >= 2 ? 'text-blue-600' : levelIdx >= 1 ? 'text-yellow-600' : 'text-gray-400') + '">' + (val >= 1 ? bm.levels[Math.max(0, Math.min(3, levelIdx))] : '未开始') + '</td></tr>';
+            }).join('');
+
+            const scores = [
+                { name: '受众资产', score: audienceScore, tip: '增加优质内容输出频率，主动参与平台活动引流' },
+                { name: '内容资产', score: contentScore, tip: '稳定更新节奏，打造系列内容，提升爆款率' },
+                { name: '技能资产', score: skillScore, tip: '深耕细分领域，系统化学习，输出知识沉淀' },
+                { name: '人脉资产', score: networkScore, tip: '主动链接同行，参与行业活动，建立互惠关系' },
+                { name: '变现资产', score: monetizeScore, tip: '设计产品矩阵，提升客单价，优化转化路径' }
+            ];
+            scores.sort((a, b) => a.score - b.score);
+            document.getElementById('weakness').innerHTML = scores.slice(0, 2).map(w => '<div class="flex items-center gap-3 p-3 bg-red-50 rounded border-l-4 border-red-500"><div class="text-2xl">&#9888;</div><div><div class="font-medium text-red-700">' + w.name + ' (' + w.score.toFixed(0) + '分)</div><div class="text-sm text-gray-600">' + w.tip + '</div></div></div>').join('');
+
+            const strategies = [];
+            const growthRate = data.fans_growth_rate || 0;
+            const monthlyContent = data.content_monthly || 0;
+            if (audienceScore < 40) strategies.push({ icon: 'fa-users', title: '冷启动破冰计划', desc: '目前粉丝基数较小，建议聚焦1-2个主平台深度运营。每天发布1-2条高质量内容，运用话题标签+互动引导+跨平台导流三件套，目标月增长10-20%。' });
+            if (contentScore < 40 && monthlyContent < 10) strategies.push({ icon: 'fa-pencil', title: '内容复利引擎', desc: '建立"选题库→批量创作→数据复盘→迭代优化"四步闭环。建议每周至少输出3篇优质内容，同时将旧内容重新包装为不同格式分发。' });
+            if (skillScore < 50) strategies.push({ icon: 'fa-graduation-cap', title: '专业壁垒构筑', desc: '通过"输入-实践-输出"循环提升专业度。每月精读1本领域书籍+参与1个实战项目+输出2篇深度文章，持续构建知识体系。' });
+            if (networkScore < 40) strategies.push({ icon: 'fa-handshake-o', title: '人脉杠杆策略', desc: '每月主动链接3-5位同领域创作者，参与1个优质付费社群。通过"提供价值→建立信任→深度合作"三步走，实现人脉资源倍增。' });
+            if (monetizeScore < 50) strategies.push({ icon: 'fa-money', title: '变现飞轮启动', desc: '从"咨询→课程→社群→产品"逐步升级。先以低价咨询验证需求，再沉淀为标准化课程或付费社群，最终打造自有产品矩阵。' });
+            if (growthRate < 5 && fans > 1000) strategies.push({ icon: 'fa-rocket', title: '增长加速器', desc: '当前粉丝增速偏低，建议启动"爆款制造计划"：每月策划2-3个热点选题+1个争议性话题+1个情感共鸣内容，打破流量瓶颈。' });
+            if (fans > 10000 && (data.income_monthly || 0) < 5000) strategies.push({ icon: 'fa-line-chart', title: '变现转化升级', desc: '粉丝基础较好但变现效率偏低。建议优化转化路径：在内容中设计产品植入点，建立"免费内容→低价引流→高价产品"漏斗，目标转化率提升至1-3%。' });
+            if (strategies.length < 3) strategies.push({ icon: 'fa-star', title: '精细化运营策略', desc: '现有资产基础较好，建议从"广度"转向"深度"。优化单平台渗透率，提升用户LTV，建立会员/订阅体系，打造个人品牌护城河。' });
+            if (strategies.length < 4) strategies.push({ icon: 'fa-globe', title: '跨平台矩阵策略', desc: '不要局限于单一平台，建立"主战场+分发阵地+私域沉淀"三级矩阵。主平台深耕内容，分平台引流，私域做转化和复购。' });
+            document.getElementById('growthStrategies').innerHTML = strategies.map(s => '<div class="bg-gradient-to-br from-rose-50 to-orange-50 rounded-xl p-4 border border-rose-100"><div class="flex items-start gap-3"><i class="fa ' + s.icon + ' text-2xl text-rose-500 mt-0.5"></i><div><h4 class="font-bold text-gray-800 mb-1">' + s.title + '</h4><p class="text-sm text-gray-600 leading-relaxed">' + s.desc + '</p></div></div></div>').join('');
+
+            const suggestions = [];
+            if (audienceScore < 50) suggestions.push({ icon: 'fa-users', text: '快速涨粉策略：选择1-2个主平台深度运营，通过爆款选题+热点评论+跨平台导流三件套快速积累' });
+            if (contentScore < 50) suggestions.push({ icon: 'fa-pencil', text: '内容升级路径：建立选题库→批量创作→数据复盘→迭代优化的闭环，每周至少输出3篇优质内容' });
+            if (skillScore < 50) suggestions.push({ icon: 'fa-graduation-cap', text: '专业能力建设：识别核心技能短板，通过课程学习+实战项目+输出教学三步走提升' });
+            if (networkScore < 50) suggestions.push({ icon: 'fa-handshake-o', text: '人脉拓展计划：每月主动链接3-5位同领域创作者，参与1个优质社群，建立互助关系' });
+            if (monetizeScore < 50) suggestions.push({ icon: 'fa-money', text: '变现能力突破：先从咨询/课程/社群等低成本产品入手，验证需求后逐步扩大规模' });
+            if (suggestions.length === 0) suggestions.push({ icon: 'fa-star', text: '你的品牌资产已处于良好状态！建议精细化运营现有资产，提升单点突破能力' });
+            document.getElementById('suggestions').innerHTML = suggestions.map(s => '<div class="flex items-center gap-3 p-3 bg-emerald-50 rounded border-l-4 border-emerald-500"><i class="fa ' + s.icon + ' text-emerald-600 text-xl"></i><div class="text-gray-700">' + s.text + '</div></div>').join('');
+        }
+
+        // ====== 变现路径推荐 ======
+        function renderMonetizePaths() {
+            const container = document.getElementById('monetizePathways');
+            const fans = ['fans_gzh', 'fans_douyin', 'fans_xhs', 'fans_bilibili', 'fans_zhihu', 'fans_private'].reduce((s, k) => s + (data[k] || 0), 0);
+            const audienceScore = Math.min(100, Math.log10(fans + 1) * 25);
+            const skillScore = ((data.skill_core || 5) + (data.skill_niche || 5) + (data.skill_content || 5) + (data.skill_monetize || 5)) / 4 * 10;
+            const monthlyIncome = data.income_monthly || 0;
+            const contentMonthly = data.content_monthly || 0;
+            const currentLevel = monthlyIncome > 50000 ? '工作室阶段' : monthlyIncome > 10000 ? '全职阶段' : monthlyIncome > 3000 ? '兼职阶段' : '兴趣阶段';
+
+            // 计算每个路径的匹配度
+            const scored = MONETIZE_PATHS.map(path => {
+                let matchScore = 0;
+                if (audienceScore >= path.minScore) matchScore += 25;
+                if (skillScore >= path.minScore + 5) matchScore += 25;
+                if (contentMonthly >= 10) matchScore += 15;
+                if (monthlyIncome > 5000) matchScore += 10;
+                // 特定路径加分
+                if (path.id === 'consult' && skillScore > 60) matchScore += 15;
+                if (path.id === 'course' && skillScore > 50 && contentMonthly > 5) matchScore += 10;
+                if (path.id === 'community' && fans > 5000) matchScore += 10;
+                if (path.id === 'ads' && fans > 10000) matchScore += 20;
+                if (path.id === 'subscription' && contentMonthly > 8) matchScore += 10;
+                if (path.id === 'product' && skillScore > 50 && fans > 3000) matchScore += 10;
+                return { ...path, matchScore: Math.min(100, matchScore) };
+            }).sort((a, b) => b.matchScore - a.matchScore);
+
+            const topScore = scored[0].matchScore;
+            container.innerHTML = '<div class="p-3 bg-green-50 rounded-lg border border-green-200 mb-4"><p class="text-sm text-green-700"><i class="fa fa-info-circle mr-1"></i>当前处于 <strong>' + currentLevel + '</strong>，最适合的前3条变现路径：</p></div>' +
+                scored.slice(0, 5).map((p, i) => {
+                    const isTop = i < 3;
+                    const badge = i === 0 ? '&#129351;' : i === 1 ? '&#129352;' : i === 2 ? '&#129353;' : '#' + (i + 1);
+                    const pct = Math.min(99, p.matchScore);
+                    return '<div class="p-4 border rounded-lg ' + (isTop ? 'bg-gradient-to-r from-green-50 to-emerald-50 border-green-200' : 'bg-gray-50 border-gray-200') + '">' +
+                        '<div class="flex items-start justify-between mb-2">' +
+                        '<div class="flex items-center gap-2"><span class="text-xl">' + badge + '</span><i class="fa ' + p.icon + ' text-xl text-green-600"></i><span class="font-bold text-gray-800">' + p.name + '</span></div>' +
+                        '<span class="text-sm font-bold text-green-600">' + pct + '%</span></div>' +
+                        '<p class="text-sm text-gray-600 mb-2">' + p.desc + '</p>' +
+                        '<div class="text-xs text-gray-500 mb-2">收入预期：' + p.income + ' | ' + p.req + '</div>' +
+                        '<div class="bg-white rounded p-2 border border-gray-100"><div class="text-xs font-medium text-gray-600 mb-1">执行步骤：</div>' +
+                        '<ol class="text-xs text-gray-500 space-y-0.5 list-decimal list-inside">' + p.steps.map(s => '<li>' + s + '</li>').join('') + '</ol></div></div>';
+                }).join('');
+        }
+
+        function showToast(msg) {
+            const existing = document.querySelector('.toast-notice');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast-notice fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-5 py-3 rounded-lg shadow-lg text-sm z-50 transition-all duration-300';
+            toast.style.opacity = '0'; toast.style.transform = 'translate(-50%, 20px)';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            requestAnimationFrame(function() { toast.style.opacity = '1'; toast.style.transform = 'translate(-50%, 0)'; });
+            setTimeout(function() { toast.style.opacity = '0'; toast.style.transform = 'translate(-50%, 20px)'; setTimeout(function() { toast.remove(); }, 300); }, 2000);
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
